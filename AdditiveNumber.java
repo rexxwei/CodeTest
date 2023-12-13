@@ -20,7 +20,6 @@ public class AdditiveNumber {
 		if (start > end)
 			return rst;
 
-		// method 2
 		for (int num = start; num <= end; num++) {
 			if (isAdditive(num))
 				rst.add(num);
@@ -39,28 +38,22 @@ public class AdditiveNumber {
 	}
 
 	static boolean backTrack(String num, int i, int j, int k) { //i,j,k为第1,2,3个数的起始位置
-		String first = new String();
-		String second = new String();
 		String sum;
-		for(int l = i; l < j; l++) {
-			first += String.valueOf(num.charAt(l));
-		}
-		for(int l = j; l < k; l++) {
-			second += String.valueOf(num.charAt(l));
-		}
+		String first = num.substring(i, j);
+		String second = num.substring(j, k);
 		if ((first.charAt(0) == '0' && (first.length() != 1) || (second.charAt(0) == '0' && second.length() != 1)))
 			//单独的零是可以存在的，其他情况第一位不能为零
 			return false;
 		sum = String.valueOf(Long.valueOf(first) + Long.valueOf(second)); //sum为前两位数字相加
 		if (k + sum.length() > num.length()) //第三位长度不够，返回false
 			return false;
-		for (int l = k, p = 0; p < sum.length(); l++, p++) { //第三位数匹配
-			if(num.charAt(l) != sum.charAt(p))
+		for (int id = k, p = 0; p < sum.length(); id++, p++) { //第三位数匹配
+			if(num.charAt(id) != sum.charAt(p))
 				return false;
 		}
 		if (k + sum.length() == num.length()) //刚好到最后一位，返回true
 			return true;
-		else
+		else	// compare next digits
 			return backTrack(num, j, k,k + sum.length());
 	}
 
